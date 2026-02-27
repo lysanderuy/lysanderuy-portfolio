@@ -1,5 +1,62 @@
 import Link from "next/link";
 
+const projectGroups = [
+  {
+    title: "Personal",
+    items: [
+      {
+        name: "Klaro",
+        url: "https://klaro.vercel.app/",
+        preview:
+          "https://s.wordpress.com/mshots/v1/https%3A%2F%2Fklaro.vercel.app%2F?w=1200",
+        stack: [
+          "Next.js",
+          "TypeScript",
+          "Node.js",
+          "Tailwind CSS",
+          "shadcn/ui",
+          "Firebase",
+          "Prisma",
+        ],
+      },
+      {
+        name: "SproutSpot",
+        url: "https://sproutspot.vercel.app/",
+        preview:
+          "https://s.wordpress.com/mshots/v1/https%3A%2F%2Fsproutspot.vercel.app%2F?w=1200",
+        stack: [
+          "Next.js",
+          "TypeScript",
+          "Node.js",
+          "Tailwind CSS",
+          "shadcn/ui",
+          "Supabase",
+          "Prisma",
+          "Gemini API",
+        ],
+      },
+    ],
+  },
+  {
+    title: "Contractual (Symph)",
+    items: [
+      {
+        name: "CourtHub",
+        url: "https://courthub.ph/",
+        preview: "https://s.wordpress.com/mshots/v1/https%3A%2F%2Fcourthub.ph%2F?w=1200",
+        stack: ["Next.js", "TypeScript", "NestJS", "TypeORM", "Firebase", "Supabase"],
+      },
+      {
+        name: "FinSpend",
+        url: "https://finspend-staging.as.r.appspot.com/",
+        preview:
+          "https://s.wordpress.com/mshots/v1/https%3A%2F%2Ffinspend-staging.as.r.appspot.com%2F?w=1200",
+        stack: ["Next.js", "TypeScript", "NestJS", "TypeORM", "Firebase", "Supabase"],
+      },
+    ],
+  },
+];
+
 export default function Projects() {
   return (
     <>
@@ -25,19 +82,65 @@ export default function Projects() {
           </Link>
           <span className="text-[10px] tracking-[0.2em] uppercase text-[#96b050]">Projects</span>
         </header>
-        <main className="relative z-10 flex-1 px-14 py-10">
+        <main className="relative z-10 flex-1 overflow-y-auto px-14 py-10">
           <h1
             className="text-[#edf5a8] font-light text-[clamp(42px,5vw,72px)] leading-[0.94]"
             style={{ fontFamily: "'Cormorant Garamond', serif" }}
           >
             Projects
           </h1>
-          <div className="mt-8 max-w-2xl rounded-xl border border-[#6e8840]/60 bg-[#232b12]/90 p-5">
-            <p className="text-[#96b050] text-[10px] uppercase tracking-[0.2em]">Planned Section</p>
-            <p className="text-[#c2d878] text-sm mt-3 leading-relaxed">
-              Add your web and mobile project case studies here. Suggested fields: title, role,
-              stack, timeline, and measurable outcomes.
-            </p>
+          <p className="mt-3 text-[#96b050] text-[10px] uppercase tracking-[0.2em]">
+            Personal and Contractual Work
+          </p>
+
+          <div className="mt-8 max-w-5xl space-y-7 pb-10">
+            {projectGroups.map((group) => (
+              <section
+                key={group.title}
+                className="rounded-xl border border-[#6e8840]/60 bg-[#232b12]/90 p-5"
+              >
+                <h2 className="text-[#edf5a8] text-sm uppercase tracking-[0.2em]">{group.title}</h2>
+                <div className="mt-4 grid grid-cols-1 md:grid-cols-2 gap-4">
+                  {group.items.map((project) => (
+                    <a
+                      key={project.name}
+                      href={project.url}
+                      target="_blank"
+                      rel="noopener noreferrer"
+                      className="group rounded-lg border border-[#6e8840]/50 bg-[#1f2710] p-4 transition-colors hover:border-[#96b050]"
+                    >
+                      <div className="overflow-hidden rounded-md border border-[#6e8840]/40 bg-[#181d0c]">
+                        <img
+                          src={project.preview}
+                          alt={`${project.name} preview`}
+                          className="h-36 w-full object-cover transition-transform duration-300 group-hover:scale-[1.02]"
+                          loading="lazy"
+                        />
+                      </div>
+                      <div className="flex items-center justify-between gap-3">
+                        <h3 className="mt-3 text-[#edf5a8] text-base">{project.name}</h3>
+                        <span className="text-[#96b050] text-xs transition-colors group-hover:text-[#d4ed60]">
+                          Open ↗
+                        </span>
+                      </div>
+                      <p className="mt-3 text-[#96b050] text-[10px] uppercase tracking-[0.2em]">
+                        Tech Stack
+                      </p>
+                      <div className="mt-2 flex flex-wrap gap-2">
+                        {project.stack.map((tech) => (
+                          <span
+                            key={tech}
+                            className="rounded-sm border border-[#6e8840]/60 px-2 py-1 text-[10px] text-[#c2d878] uppercase tracking-[0.12em]"
+                          >
+                            {tech}
+                          </span>
+                        ))}
+                      </div>
+                    </a>
+                  ))}
+                </div>
+              </section>
+            ))}
           </div>
         </main>
       </div>
