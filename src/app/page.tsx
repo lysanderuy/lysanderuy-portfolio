@@ -49,7 +49,7 @@ export default function Home() {
         />
 
         <header
-          className={`relative z-10 flex items-center justify-between px-14 py-7 border-b border-[#6e8840]/30 ${
+          className={`relative z-10 flex items-center justify-between px-5 py-5 md:px-14 md:py-7 border-b border-[#6e8840]/30 ${
             mounted ? "fade-1" : "opacity-0"
           }`}
         >
@@ -76,7 +76,7 @@ export default function Home() {
           >
             Lysander Uy
           </h1>
-          <p className="text-[#a8c84a] text-[11px] tracking-[0.18em] uppercase">
+          <p className="text-[#a8c84a] text-[11px] tracking-[0.18em] uppercase text-center">
             Full Stack & Mobile Application Developer
           </p>
           <p className="text-[#c2d878] text-xs tracking-[0.14em] uppercase">
@@ -102,7 +102,7 @@ export default function Home() {
         </main>
 
         <footer
-          className={`relative z-10 flex items-center justify-between px-14 py-5 border-t border-[#6e8840]/20 ${
+          className={`relative z-10 flex items-center justify-between px-5 py-4 md:px-14 md:py-5 border-t border-[#6e8840]/20 ${
             mounted ? "fade-3" : "opacity-0"
           }`}
         >

@@ -1,27 +1,9 @@
 "use client";
 
 import { useEffect, useState } from "react";
+import Link from "next/link";
 
 const links = [
-  {
-    label: "Portfolio",
-    href: "https://lysanderuy.my.canva.site/",
-    icon: (
-      <svg
-        viewBox="0 0 24 24"
-        fill="none"
-        stroke="currentColor"
-        strokeWidth="1.5"
-        className="w-4 h-4"
-      >
-        <path
-          strokeLinecap="round"
-          strokeLinejoin="round"
-          d="M13.5 6H5.25A2.25 2.25 0 003 8.25v10.5A2.25 2.25 0 005.25 21h10.5A2.25 2.25 0 0018 18.75V10.5m-10.5 6L21 3m0 0h-5.25M21 3v5.25"
-        />
-      </svg>
-    ),
-  },
   {
     label: "LinkedIn",
     href: "https://www.linkedin.com/in/lysanderuy",
@@ -41,6 +23,15 @@ const links = [
     ),
   },
   {
+    label: "Facebook",
+    href: "https://www.facebook.com/lysander.uy",
+    icon: (
+      <svg viewBox="0 0 24 24" fill="currentColor" className="w-4 h-4">
+        <path d="M22.675 0h-21.35C.593 0 0 .592 0 1.326v21.348C0 23.408.593 24 1.326 24h11.495v-9.294H9.692V11.08h3.129V8.413c0-3.1 1.893-4.788 4.659-4.788 1.325 0 2.463.099 2.795.143v3.24l-1.918.001c-1.504 0-1.794.715-1.794 1.763v2.312h3.587l-.467 3.626h-3.12V24h6.116C23.407 24 24 23.408 24 22.674V1.326C24 .592 23.407 0 22.675 0z" />
+      </svg>
+    ),
+  },
+  {
     label: "Instagram",
     href: "https://www.instagram.com/uy_lysan",
     icon: (
@@ -50,7 +41,7 @@ const links = [
     ),
   },
   {
-    label: "lysander.uy@gmail.com",
+    label: "Email",
     href: "mailto:lysander.uy@gmail.com",
     icon: (
       <svg
@@ -98,7 +89,10 @@ export default function Profile() {
   const [hovered, setHovered] = useState<number | null>(null);
 
   useEffect(() => {
-    document.body.style.overflow = "hidden";
+    const isDesktop = window.matchMedia("(min-width: 768px)").matches;
+    if (isDesktop) {
+      document.body.style.overflow = "hidden";
+    }
     setMounted(true);
     return () => {
       document.body.style.overflow = "";
@@ -148,11 +142,32 @@ export default function Profile() {
         />
 
         <header
-          className={`relative z-10 flex items-center justify-between px-14 py-7 border-b border-[#6e8840]/30 ${mounted ? "fade-1" : "opacity-0"}`}
+          className={`relative z-10 flex items-center justify-between px-5 py-5 md:px-14 md:py-7 border-b border-[#6e8840]/30 ${mounted ? "fade-1" : "opacity-0"}`}
         >
-          <span className="text-[10px] tracking-[0.3em] uppercase font-medium text-[#96b050]">
-            lysander.uy
-          </span>
+          <div className="flex items-center gap-3">
+            <Link
+              href="/"
+              className="md:hidden inline-flex items-center gap-2 px-2 py-1 border border-[#6e8840] text-[#96b050] text-[10px] uppercase tracking-[0.2em] rounded-sm hover:bg-[#96b050]/20 transition-colors"
+            >
+              <svg
+                viewBox="0 0 24 24"
+                fill="none"
+                stroke="currentColor"
+                strokeWidth="1.5"
+                className="w-3 h-3"
+              >
+                <path
+                  strokeLinecap="round"
+                  strokeLinejoin="round"
+                  d="M10.5 19.5L3 12m0 0l7.5-7.5M3 12h18"
+                />
+              </svg>
+              Back
+            </Link>
+            <span className="hidden md:inline text-[10px] tracking-[0.3em] uppercase font-medium text-[#96b050]">
+              Profile
+            </span>
+          </div>
           <div className="flex items-center gap-2">
             <span
               className="blink w-1.5 h-1.5 rounded-full inline-block"
@@ -165,10 +180,9 @@ export default function Profile() {
         </header>
 
         <main
-          className="relative z-10 flex-1 grid overflow-hidden px-14"
-          style={{ gridTemplateColumns: "1fr 1px 1fr" }}
+          className="relative z-10 flex-1 grid grid-cols-1 md:[grid-template-columns:1fr_1px_1fr] overflow-y-auto overflow-x-hidden px-5 md:px-14"
         >
-          <section className="flex flex-col justify-center pr-16 py-6 overflow-hidden">
+          <section className="flex flex-col justify-center md:pr-16 py-6 overflow-visible md:overflow-hidden">
             <div
               className={`flex items-center gap-6 mb-10 ${mounted ? "fade-2" : "opacity-0"}`}
             >
@@ -192,7 +206,7 @@ export default function Profile() {
               </div>
             </div>
 
-            <div className={`mb-12 ${mounted ? "fade-3" : "opacity-0"}`}>
+            <div className={`mb-10 md:mb-12 ${mounted ? "fade-3" : "opacity-0"}`}>
               <h1
                 className="font-light leading-[0.92] text-[#edf5a8]"
                 style={{
@@ -220,7 +234,7 @@ export default function Profile() {
             <div className={mounted ? "fade-4" : "opacity-0"}>
               <button
                 onClick={() => window.history.back()}
-                className="inline-flex items-center gap-2 text-[10px] tracking-[0.2em] uppercase text-[#96b050] border border-[#6e8840] px-4 py-2 rounded-sm bg-transparent cursor-pointer transition-colors hover:border-[#96b050] hover:text-[#d4ed60]"
+                className="hidden md:inline-flex items-center gap-2 text-[10px] tracking-[0.2em] uppercase text-[#96b050] border border-[#6e8840] px-4 py-2 rounded-sm bg-transparent cursor-pointer transition-colors hover:border-[#96b050] hover:text-[#d4ed60]"
               >
                 <svg
                   viewBox="0 0 24 24"
@@ -240,9 +254,14 @@ export default function Profile() {
             </div>
           </section>
 
-          <div className="my-12" style={{ background: "rgba(120,145,55,0.22)" }} />
+          <div className="block md:hidden my-2 h-px bg-[#6e8840]/30" />
 
-          <section className="flex flex-col justify-center pl-16 py-6 overflow-hidden">
+          <div
+            className="hidden md:block my-12"
+            style={{ background: "rgba(120,145,55,0.22)" }}
+          />
+
+          <section className="flex flex-col justify-center md:pl-16 py-6 overflow-visible md:overflow-hidden">
             <div className={`mb-12 ${mounted ? "fade-5" : "opacity-0"}`}>
               <p className="text-[9px] tracking-[0.3em] uppercase text-[#96b050] mb-5">
                 Connect
@@ -301,7 +320,7 @@ export default function Profile() {
         </main>
 
         <footer
-          className={`relative z-10 flex items-center justify-between px-14 py-5 border-t border-[#6e8840]/20 ${mounted ? "fade-7" : "opacity-0"}`}
+          className={`relative z-10 flex items-center justify-between px-5 py-4 md:px-14 md:py-5 border-t border-[#6e8840]/20 ${mounted ? "fade-7" : "opacity-0"}`}
         >
           <span className="text-[9px] tracking-[0.25em] uppercase text-[#526630]">
             Full Stack & Mobile Application Developer

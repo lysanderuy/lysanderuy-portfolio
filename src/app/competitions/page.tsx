@@ -179,14 +179,14 @@ function CompetitionCard({
   const [selectedPhoto, setSelectedPhoto] = useState(0);
 
   return (
-    <article className={cardClassName}>
-      <div className="grid grid-cols-1 lg:grid-cols-[1.1fr_1fr] gap-5">
+    <article className={`${cardClassName} h-full overflow-hidden`}>
+      <div className="grid grid-cols-1 lg:grid-cols-[1.1fr_1fr] gap-3 md:gap-5 h-full">
         <div>
           <div className="overflow-hidden rounded-lg border border-[#6e8840]/50 bg-[#1b220d]">
             <img
               src={item.photos[selectedPhoto].src}
               alt={item.photos[selectedPhoto].alt}
-              className="w-full h-[200px] md:h-[240px] object-cover"
+              className="w-full h-[150px] sm:h-[170px] md:h-[240px] object-cover"
             />
           </div>
           <div className="mt-3 flex gap-2 overflow-x-auto pb-1">
@@ -199,36 +199,44 @@ function CompetitionCard({
                   i === selectedPhoto ? "border-[#96b050]" : "border-[#6e8840]/50"
                 }`}
               >
-                <img src={photo.src} alt={photo.alt} className="w-20 h-14 object-cover" />
+                <img
+                  src={photo.src}
+                  alt={photo.alt}
+                  className="w-16 h-12 sm:w-20 sm:h-14 object-cover"
+                />
               </button>
             ))}
           </div>
         </div>
 
-        <div className="flex flex-col">
-          <h2 className="text-[#edf5a8] text-lg leading-tight">{item.title}</h2>
-          <p className="mt-2 text-[#96b050] text-[10px] uppercase tracking-[0.2em]">
-            Issued by {item.issuer} · {item.issuedAt}
-          </p>
-          <p className="mt-1 text-[#a8c84a] text-xs">Associated with {item.association}</p>
-          <div className="mt-3 grid grid-cols-2 gap-2">
-            <p className="text-[#96b050] text-[10px] uppercase tracking-[0.2em]">
-              Result
-              <span className="block text-[#c2d878] text-xs normal-case tracking-normal mt-1">
-                {item.result}
-              </span>
+        <div className="flex h-full flex-col min-h-0 overflow-hidden pr-1">
+          <div className="min-h-0 overflow-hidden">
+            <h2 className="text-[#edf5a8] text-lg leading-tight line-clamp-2 md:line-clamp-none">
+              {item.title}
+            </h2>
+            <p className="mt-2 text-[#96b050] text-[10px] uppercase tracking-[0.2em]">
+              Issued by {item.issuer} · {item.issuedAt}
             </p>
-            <p className="text-[#96b050] text-[10px] uppercase tracking-[0.2em]">
-              Category
-              <span className="block text-[#c2d878] text-xs normal-case tracking-normal mt-1">
-                {item.category}
-              </span>
-            </p>
+            <p className="mt-1 text-[#a8c84a] text-xs">Associated with {item.association}</p>
+            <div className="mt-3 grid grid-cols-2 gap-2">
+              <p className="text-[#96b050] text-[10px] uppercase tracking-[0.2em]">
+                Result
+                <span className="block text-[#c2d878] text-xs normal-case tracking-normal mt-1">
+                  {item.result}
+                </span>
+              </p>
+              <p className="text-[#96b050] text-[10px] uppercase tracking-[0.2em]">
+                Category
+                <span className="block text-[#c2d878] text-xs normal-case tracking-normal mt-1">
+                  {item.category}
+                </span>
+              </p>
+            </div>
+            <div className="hidden md:block mt-4 min-h-0 flex-1 overflow-y-auto pr-1">
+              <p className="text-[#c2d878] text-sm leading-relaxed">{item.summary}</p>
+            </div>
           </div>
-
-          <p className="mt-5 text-[#c2d878] text-sm leading-relaxed">{item.summary}</p>
-
-          <p className="mt-auto pt-5 text-[#96b050] text-[10px] uppercase tracking-[0.2em]">
+          <p className="mt-4 md:mt-auto pt-0 md:pt-5 shrink-0 text-[#96b050] text-[10px] uppercase tracking-[0.2em]">
             Photo {selectedPhoto + 1} of {item.photos.length}
           </p>
         </div>
@@ -240,19 +248,25 @@ function CompetitionCard({
 export default function Competitions() {
   const [deckPosition, setDeckPosition] = useState(0);
   const [isDeckDragging, setIsDeckDragging] = useState(false);
+  const [isMobile, setIsMobile] = useState(false);
   const deckStartXRef = useRef(0);
+  const deckStartYRef = useRef(0);
   const deckStartPositionRef = useRef(0);
+  const deckTouchSwipingRef = useRef(false);
   const deckWheelSnapTimerRef = useRef<number | null>(null);
 
   useEffect(() => {
     setDeckPosition(0);
     setIsDeckDragging(false);
+    const media = window.matchMedia("(max-width: 767px)");
+    const onChange = () => setIsMobile(media.matches);
+    onChange();
+    media.addEventListener("change", onChange);
+    return () => media.removeEventListener("change", onChange);
   }, []);
 
   const maxDeckIndex = Math.max(competitions.length - 1, 0);
   const clampDeckPosition = (value: number) => Math.min(maxDeckIndex, Math.max(0, value));
-  const wrappedDeckIndex = (value: number) =>
-    ((value % competitions.length) + competitions.length) % competitions.length;
   const snapDeckToClosest = () => {
     setDeckPosition((prev) => clampDeckPosition(Math.round(prev)));
   };
@@ -266,7 +280,7 @@ export default function Competitions() {
   const onDeckPointerMove = (clientX: number) => {
     if (!isDeckDragging) return;
     const deltaX = deckStartXRef.current - clientX;
-    const cardsMoved = deltaX / 560;
+    const cardsMoved = deltaX / (isMobile ? 320 : 560);
     setDeckPosition(clampDeckPosition(deckStartPositionRef.current + cardsMoved));
   };
 
@@ -274,6 +288,38 @@ export default function Competitions() {
     if (!isDeckDragging) return;
     setIsDeckDragging(false);
     snapDeckToClosest();
+  };
+
+  const onDeckTouchStart = (clientX: number, clientY: number) => {
+    onDeckPointerDown(clientX);
+    deckStartYRef.current = clientY;
+    deckTouchSwipingRef.current = false;
+  };
+
+  const onDeckTouchMove = (
+    clientX: number,
+    clientY: number,
+    event: React.TouchEvent<HTMLDivElement>
+  ) => {
+    if (!isDeckDragging) return;
+    const deltaXAbs = Math.abs(deckStartXRef.current - clientX);
+    const deltaYAbs = Math.abs(deckStartYRef.current - clientY);
+
+    if (!deckTouchSwipingRef.current) {
+      if (deltaXAbs > 8 && deltaXAbs > deltaYAbs) {
+        deckTouchSwipingRef.current = true;
+      } else if (deltaYAbs > deltaXAbs) {
+        return;
+      }
+    }
+
+    event.preventDefault();
+    onDeckPointerMove(clientX);
+  };
+
+  const onDeckTouchEnd = () => {
+    deckTouchSwipingRef.current = false;
+    onDeckPointerUp();
   };
 
   const onDeckWheel = (deltaY: number) => {
@@ -291,6 +337,8 @@ export default function Competitions() {
     <>
       <style>{`
         @import url('https://fonts.googleapis.com/css2?family=DM+Mono:wght@300;400;500&family=Cormorant+Garamond:wght@300;400;600;700&display=swap');
+        @keyframes blink { 0%,100%{opacity:1} 50%{opacity:0.25} }
+        .blink  { animation: blink 2.5s infinite; }
         .noise  { background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.85' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E"); opacity:0.18; }
       `}</style>
       <div
@@ -301,74 +349,81 @@ export default function Competitions() {
         }}
       >
         <div className="noise absolute inset-0 pointer-events-none z-0" />
-        <header className="relative z-10 flex items-center justify-between px-14 py-5 border-b border-[#6e8840]/30">
+        <header className="relative z-10 flex items-center justify-between px-5 py-5 md:px-14 md:py-7 border-b border-[#6e8840]/30">
           <Link
             href="/"
-            className="px-2 py-1 border border-[#6e8840] text-[#96b050] text-[10px] uppercase tracking-[0.2em] rounded-sm hover:bg-[#96b050]/20 transition-colors"
+            className="inline-flex items-center gap-2 px-2 py-1 border border-[#6e8840] text-[#96b050] text-[10px] uppercase tracking-[0.2em] rounded-sm hover:bg-[#96b050]/20 transition-colors"
           >
+            <svg
+              viewBox="0 0 24 24"
+              fill="none"
+              stroke="currentColor"
+              strokeWidth="1.5"
+              className="w-3 h-3"
+            >
+              <path
+                strokeLinecap="round"
+                strokeLinejoin="round"
+                d="M10.5 19.5L3 12m0 0l7.5-7.5M3 12h18"
+              />
+            </svg>
             Back
           </Link>
-          <span className="text-[10px] tracking-[0.2em] uppercase text-[#96b050]">
-            Competitions
-          </span>
+          <div className="flex items-center gap-2">
+            <span
+              className="blink w-1.5 h-1.5 rounded-full inline-block"
+              style={{ background: "#96b050", boxShadow: "0 0 8px #96b050" }}
+            />
+            <span className="text-[10px] tracking-[0.2em] uppercase text-[#96b050]">
+              Competitions
+            </span>
+          </div>
         </header>
-        <main className="relative z-10 flex-1 overflow-hidden px-14 py-8">
+        <main className="relative z-10 flex-1 overflow-hidden px-5 pt-5 pb-4 md:px-14 md:py-8">
           <h1
             className="text-[#edf5a8] font-light text-[clamp(42px,5vw,72px)] leading-[0.94]"
             style={{ fontFamily: "'Cormorant Garamond', serif" }}
           >
             Competitions
           </h1>
-          <div className="mt-8 max-w-5xl relative">
+          <div className="mt-4 md:mt-8 max-w-5xl relative">
             <div
-              className="relative h-[500px]"
+              className="relative h-[calc(100svh-195px)] md:h-[500px]"
               onWheel={(event) => {
                 event.preventDefault();
                 onDeckWheel(event.deltaY);
               }}
             >
-                {[1, 2, 3, 4]
-                  .map((offset) => {
-                    const idx = wrappedDeckIndex(Math.round(deckPosition) + offset);
-                    return { idx, offset, item: competitions[idx] };
-                  })
-                  .reverse()
-                  .map(({ idx, offset, item }) => (
-                    <div
-                      key={`${item.title}-stack-${offset}`}
-                      className="absolute right-2 rounded-xl border border-[#6e8840]/40 bg-[#232b12]/60 p-3 text-left backdrop-blur-[1px] transition-all duration-300 select-none pointer-events-none"
-                      style={{
-                        top: 10 + offset * 22,
-                        width: 390 - offset * 24,
-                        transform: `translateX(${offset * 6}px) translateY(${offset * 2}px) rotate(${
-                          offset % 2 === 0 ? 0.7 : -0.7
-                        }deg) scale(${1 - offset * 0.045})`,
-                        opacity: 0.74 - offset * 0.12,
-                        zIndex: 20 - offset,
-                      }}
-                    >
-                      <p className="text-[#c2d878] text-[10px] uppercase tracking-[0.15em]">
-                        Up Next
-                      </p>
-                      <p className="mt-1 text-[#edf5a8] text-xs leading-snug">{item.title}</p>
-                    </div>
-                  ))}
-
                 <div
-                  className={`absolute inset-x-0 top-16 z-30 flex justify-center select-none ${
+                  className={`absolute inset-x-0 top-8 md:top-8 z-30 flex justify-center select-none ${
                     isDeckDragging ? "cursor-grabbing" : "cursor-grab"
                   }`}
-                  style={{ userSelect: "none" }}
+                  style={{ userSelect: "none", touchAction: "none" }}
                   onPointerDown={(event) => {
                     event.preventDefault();
+                    event.currentTarget.setPointerCapture(event.pointerId);
                     onDeckPointerDown(event.clientX);
                   }}
                   onPointerMove={(event) => onDeckPointerMove(event.clientX)}
                   onPointerUp={onDeckPointerUp}
                   onPointerCancel={onDeckPointerUp}
                   onPointerLeave={onDeckPointerUp}
+                  onTouchStart={(event) => {
+                    if (event.touches.length === 0) return;
+                    onDeckTouchStart(event.touches[0].clientX, event.touches[0].clientY);
+                  }}
+                  onTouchMove={(event) => {
+                    if (event.touches.length === 0) return;
+                    onDeckTouchMove(
+                      event.touches[0].clientX,
+                      event.touches[0].clientY,
+                      event
+                    );
+                  }}
+                  onTouchEnd={onDeckTouchEnd}
+                  onTouchCancel={onDeckTouchEnd}
                 >
-                  <div className="relative w-[980px] h-[410px]">
+                  <div className="relative w-[90vw] max-w-[980px] h-[calc(100svh-260px)] md:h-[390px]">
                     {competitions.map((item, index) => {
                       const rel = index - deckPosition;
                       if (Math.abs(rel) > 2.4) return null;
@@ -377,10 +432,12 @@ export default function Competitions() {
                       return (
                         <div
                           key={item.title}
-                          className="absolute left-1/2 top-0 transition-[transform,opacity,filter] duration-280"
+                          className="absolute left-1/2 top-0 h-full transition-[transform,opacity,filter] duration-280"
                           style={{
-                            transform: `translateX(calc(-50% + ${rel * 430}px)) translateY(${
-                              abs * 14
+                            transform: `translateX(calc(-50% + ${
+                              rel * (isMobile ? 280 : 430)
+                            }px)) translateY(${
+                              abs * (isMobile ? 10 : 14)
                             }px) scale(${1 - abs * 0.08}) rotate(${rel * -1.6}deg)`,
                             opacity: Math.max(0.1, 1 - abs * 0.58),
                             filter: isFront
@@ -389,11 +446,12 @@ export default function Competitions() {
                             zIndex: 40 - Math.round(abs * 10),
                             transitionTimingFunction: "cubic-bezier(.2,.8,.2,1)",
                             pointerEvents: isFront ? "auto" : "none",
+                            touchAction: "none",
                           }}
                         >
                           <CompetitionCard
                             item={item}
-                            cardClassName="w-[980px] rounded-xl border border-[#6e8840]/60 bg-[#232b12]/75 p-5"
+                            cardClassName="w-[90vw] max-w-[980px] rounded-xl border border-[#6e8840]/60 bg-[#232b12]/75 p-3 md:p-5"
                           />
                         </div>
                       );
@@ -401,7 +459,7 @@ export default function Competitions() {
                   </div>
                 </div>
 
-                <div className="absolute inset-x-0 bottom-4 z-40 flex items-center justify-center gap-5">
+                <div className="hidden md:flex absolute inset-x-0 bottom-4 z-40 items-center justify-center gap-5">
                   <button
                     type="button"
                     onClick={() =>
@@ -427,7 +485,7 @@ export default function Competitions() {
             </div>
           </div>
         </main>
-        <footer className="relative z-10 flex items-center justify-between px-14 py-4 border-t border-[#6e8840]/20">
+        <footer className="relative z-10 flex items-center justify-between px-5 py-4 md:px-14 md:py-5 border-t border-[#6e8840]/20">
           <span className="text-[9px] tracking-[0.25em] uppercase text-[#526630]">
             Full Stack & Mobile Application Developer
           </span>

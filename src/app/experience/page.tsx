@@ -71,14 +71,27 @@ export default function Experience() {
         />
 
         <header
-          className={`relative z-10 flex items-center justify-between px-14 py-5 border-b border-[#6e8840]/30 ${
+          className={`relative z-10 flex items-center justify-between px-5 py-5 md:px-14 md:py-7 border-b border-[#6e8840]/30 ${
             mounted ? "fade-1" : "opacity-0"
           }`}
         >
           <Link
             href="/"
-            className="px-2 py-1 border border-[#6e8840] text-[#96b050] text-[10px] uppercase tracking-[0.2em] rounded-sm hover:bg-[#96b050]/20 transition-colors"
+            className="inline-flex items-center gap-2 px-2 py-1 border border-[#6e8840] text-[#96b050] text-[10px] uppercase tracking-[0.2em] rounded-sm hover:bg-[#96b050]/20 transition-colors"
           >
+            <svg
+              viewBox="0 0 24 24"
+              fill="none"
+              stroke="currentColor"
+              strokeWidth="1.5"
+              className="w-3 h-3"
+            >
+              <path
+                strokeLinecap="round"
+                strokeLinejoin="round"
+                d="M10.5 19.5L3 12m0 0l7.5-7.5M3 12h18"
+              />
+            </svg>
             Back
           </Link>
           <div className="flex items-center gap-2">
@@ -92,9 +105,9 @@ export default function Experience() {
           </div>
         </header>
 
-        <main className="relative z-10 flex-1 overflow-y-auto px-14 py-10">
+        <main className="relative z-10 flex-1 overflow-y-auto px-5 py-8 md:px-14 md:py-10">
           <h1
-            className={`sticky top-0 z-10 text-[#edf5a8] font-light text-[clamp(42px,5vw,72px)] leading-[0.94] ${
+            className={`mb-6 z-10 text-[#edf5a8] font-light text-[clamp(42px,5vw,72px)] leading-[0.94] ${
               mounted ? "fade-2" : "opacity-0"
             }`}
             style={{ fontFamily: "'Cormorant Garamond', serif" }}
@@ -134,6 +147,14 @@ export default function Experience() {
             ))}
           </div>
         </main>
+        <footer className="relative z-10 flex items-center justify-between px-5 py-4 md:px-14 md:py-5 border-t border-[#6e8840]/20">
+          <span className="text-[9px] tracking-[0.25em] uppercase text-[#526630]">
+            Full Stack & Mobile Application Developer
+          </span>
+          <span className="text-[9px] tracking-[0.25em] uppercase text-[#526630]">
+            {new Date().getFullYear()}
+          </span>
+        </footer>
       </div>
     </>
   );
