@@ -44,14 +44,21 @@ const projectGroups = [
         name: "CourtHub",
         url: "https://courthub.ph/",
         preview: "https://s.wordpress.com/mshots/v1/https%3A%2F%2Fcourthub.ph%2F?w=1200",
-        stack: ["Next.js", "TypeScript", "NestJS", "TypeORM", "Firebase", "Supabase"],
+        stack: ["Next.js", "TypeScript", "NestJS", "Drizzle ORM", "Firebase", "Supabase", "GCP"],
       },
       {
         name: "FinSpend",
-        url: "https://finspend-staging.as.r.appspot.com/",
+        url: "https://finspend.io/",
         preview:
           "https://s.wordpress.com/mshots/v1/https%3A%2F%2Ffinspend-staging.as.r.appspot.com%2F?w=1200",
-        stack: ["Next.js", "TypeScript", "NestJS", "TypeORM", "Firebase", "Supabase"],
+        stack: ["Next.js", "TypeScript", "NestJS", "TypeORM", "Firebase", "Supabase", "GCP"],
+      },
+      {
+        name: "HireAI",
+        url: "https://hireai.bot/",
+        preview:
+          "https://s.wordpress.com/mshots/v1/https%3A%2F%2Fhireai.bot%2F?w=1200",
+        stack: ["Next.js", "TypeScript", "NestJS", "Firebase", "Firestore", "GCP"],
       },
     ],
   },
