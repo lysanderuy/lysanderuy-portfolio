@@ -1,161 +1,175 @@
 "use client";
 
-import { useEffect, useState } from "react";
-import Link from "next/link";
+import Image from "next/image";
+import { useMounted } from "@/hooks/useMounted";
+import { PageShell } from "@/components/PageShell";
+import { PageHeader } from "@/components/PageHeader";
+import { PageFooter } from "@/components/PageFooter";
+import { experienceEntries } from "@/data/experience";
 
-const experienceEntries = [
-  {
-    roleTitle: "Full Stack Developer",
-    company: "Symph",
-    period: "Feb - Present",
-    contracts: ["FinSpend (Feb - Present)", "CourtHub (Feb - Present)"],
-  },
-  {
-    roleTitle: "Mobile App Developer",
-    company: "Focus Bear",
-    period: "Feb - Present",
-    contracts: [],
-  },
-  {
-    roleTitle: "Freelance Full-Stack Developer",
-    company: "Anek2",
-    period: "Jan - Present",
-    contracts: ["Current project: DOH Lab Form Automation."],
-  },
-];
+const fadeClass = (i: number) =>
+  ["fade-3", "fade-4", "fade-5"][i] ?? "fade-5";
 
 export default function Experience() {
-  const [mounted, setMounted] = useState(false);
-
-  useEffect(() => {
-    setMounted(true);
-    return () => setMounted(false);
-  }, []);
+  const mounted = useMounted();
 
   return (
-    <>
-      <style>{`
-        @import url('https://fonts.googleapis.com/css2?family=DM+Mono:wght@300;400;500&family=Cormorant+Garamond:wght@300;400;600;700&display=swap');
-        @keyframes fadeUp { from{opacity:0;transform:translateY(18px)} to{opacity:1;transform:translateY(0)} }
-        @keyframes blink { 0%,100%{opacity:1} 50%{opacity:0.25} }
-        .fade-1 { animation: fadeUp 0.5s ease both; }
-        .fade-2 { animation: fadeUp 0.6s ease 0.1s both; }
-        .fade-3 { animation: fadeUp 0.7s ease 0.2s both; }
-        .blink  { animation: blink 2.5s infinite; }
-        .noise  { background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.85' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E"); opacity:0.18; }
-      `}</style>
+    <PageShell>
+      <PageHeader
+        label="Experience"
+        showBack
+        className={mounted ? "fade-1" : "opacity-0"}
+      />
 
-      <div
-        className="w-screen h-screen overflow-hidden flex flex-col relative"
-        style={{
-          background:
-            "linear-gradient(160deg, #181d0c 0%, #222810 50%, #2c3515 100%)",
-          fontFamily: "'DM Mono', monospace",
-        }}
-      >
-        <div className="noise absolute inset-0 pointer-events-none z-0" />
-        <div
-          className="absolute inset-0 pointer-events-none z-0 opacity-[0.04]"
-          style={{
-            backgroundImage:
-              "linear-gradient(#7a8f40 1px, transparent 1px), linear-gradient(90deg, #7a8f40 1px, transparent 1px)",
-            backgroundSize: "72px 72px",
-          }}
-        />
-        <div
-          className="absolute pointer-events-none z-0 w-[60vw] h-[60vh] top-[20%] -left-[10%]"
-          style={{
-            background:
-              "radial-gradient(ellipse, rgba(90,110,40,0.12) 0%, transparent 70%)",
-          }}
-        />
-
-        <header
-          className={`relative z-10 flex items-center justify-between px-5 py-5 md:px-14 md:py-7 border-b border-[#6e8840]/30 ${
-            mounted ? "fade-1" : "opacity-0"
+      <main className="relative z-10 flex-1 overflow-y-auto px-5 py-8 md:px-14 md:py-12">
+        <h1
+          className={`font-cormorant text-[#edf5a8] font-light text-[clamp(36px,6vw,68px)] leading-[0.92] mb-10 md:mb-14 ${
+            mounted ? "fade-2" : "opacity-0"
           }`}
         >
-          <Link
-            href="/"
-            className="inline-flex items-center gap-2 px-2 py-1 border border-[#6e8840] text-[#96b050] text-[10px] uppercase tracking-[0.2em] rounded-sm hover:bg-[#96b050]/20 transition-colors"
-          >
-            <svg
-              viewBox="0 0 24 24"
-              fill="none"
-              stroke="currentColor"
-              strokeWidth="1.5"
-              className="w-3 h-3"
-            >
-              <path
-                strokeLinecap="round"
-                strokeLinejoin="round"
-                d="M10.5 19.5L3 12m0 0l7.5-7.5M3 12h18"
-              />
-            </svg>
-            Back
-          </Link>
-          <div className="flex items-center gap-2">
-            <span
-              className="blink w-1.5 h-1.5 rounded-full inline-block"
-              style={{ background: "#96b050", boxShadow: "0 0 8px #96b050" }}
-            />
-            <span className="text-[10px] tracking-[0.2em] uppercase text-[#96b050]">
-              Experience
-            </span>
-          </div>
-        </header>
+          Experience
+        </h1>
 
-        <main className="relative z-10 flex-1 overflow-y-auto px-5 py-8 md:px-14 md:py-10">
-          <h1
-            className={`mb-6 z-10 text-[#edf5a8] font-light text-[clamp(42px,5vw,72px)] leading-[0.94] ${
-              mounted ? "fade-2" : "opacity-0"
-            }`}
-            style={{ fontFamily: "'Cormorant Garamond', serif" }}
-          >
-            Work Experience
-          </h1>
-
-          <div className={`mt-8 grid gap-4 max-w-3xl ${mounted ? "fade-3" : "opacity-0"}`}>
-            {experienceEntries.map((entry) => (
-              <article
-                key={`${entry.roleTitle}-${entry.company}`}
-                className="rounded-xl border border-[#6e8840]/60 bg-[#232b12]/90 p-5"
+        {/* Timeline layout */}
+        <div className="flex flex-col gap-0 pb-12">
+          {experienceEntries.map((entry, i) => {
+            const isLast = i === experienceEntries.length - 1;
+            return (
+              <div
+                key={i}
+                className={mounted ? fadeClass(i) : "opacity-0"}
               >
-                <h2 className="text-[#edf5a8] text-lg">{entry.roleTitle}</h2>
-                <p className="text-[#a8c84a] text-sm mt-1">{entry.company}</p>
-                <p className="text-[#96b050] text-[10px] uppercase tracking-[0.2em] mt-2">
-                  {entry.period}
-                </p>
-                {entry.contracts.length > 0 ? (
-                  <div className="mt-4">
-                    <p className="text-[#c2d878] text-[10px] uppercase tracking-[0.2em] mb-2">
-                      Contracts
-                    </p>
-                    <div className="space-y-2">
-                      {entry.contracts.map((contract) => (
-                        <p
-                          key={contract}
-                          className="rounded-lg bg-[#1f2710] border border-[#6e8840]/40 px-3 py-2 text-[#edf5a8] text-sm"
-                        >
-                          {contract}
-                        </p>
-                      ))}
+                {/* Mobile: meta row above card */}
+                <div className="flex md:hidden items-center gap-3 mb-3">
+                  <span className="text-[10px] tracking-[0.2em] uppercase text-[#6e8840]/50 font-mono">
+                    {String(i + 1).padStart(2, "0")}
+                  </span>
+                  <span
+                    className="flex-1 h-px"
+                    style={{
+                      background:
+                        "linear-gradient(90deg, #6e8840 0%, transparent 100%)",
+                    }}
+                  />
+                  <span className="text-[10px] tracking-[0.08em] text-[#6e8840]/70 font-mono">
+                    {entry.period}
+                    {entry.location ? ` · ${entry.location}` : ""}
+                  </span>
+                </div>
+
+                {/* Desktop: two-column timeline row / Mobile: full-width card */}
+                <div className="flex flex-col md:flex-row md:gap-8 group">
+                  {/* Left column — desktop only */}
+                  <div className="hidden md:flex flex-col items-end shrink-0 w-[200px] relative pt-1">
+                    {/* Spine */}
+                    <div
+                      className="absolute right-0 top-0 w-px"
+                      style={{
+                        height: isLast ? "calc(50%)" : "100%",
+                        background: isLast
+                          ? "linear-gradient(180deg, rgba(110,136,64,0.35) 0%, transparent 100%)"
+                          : "rgba(110,136,64,0.25)",
+                      }}
+                    />
+                    {/* Dot on spine */}
+                    <div
+                      className="absolute right-[-4px] top-[18px] w-2 h-2 rounded-full border border-[#96b050]/50 bg-[#1a2110] z-10 transition-all duration-300 group-hover:border-[#d4ed60]"
+                      style={{
+                        boxShadow: undefined,
+                      }}
+                    >
+                      {/* glow handled via group-hover pseudo via inline style hack */}
+                    </div>
+                    <div className="text-right pr-6 flex flex-col gap-1.5">
+                      <span className="text-[10px] tracking-[0.2em] uppercase text-[#6e8840]/40 font-mono">
+                        {String(i + 1).padStart(2, "0")}
+                      </span>
+                      <span className="text-[11px] tracking-[0.06em] text-[#6e8840]">
+                        {entry.period}
+                      </span>
+                      <span className="text-[11px] tracking-[0.04em] text-[#6e8840]/55">
+                        {entry.location}
+                      </span>
                     </div>
                   </div>
-                ) : null}
-              </article>
-            ))}
-          </div>
-        </main>
-        <footer className="relative z-10 flex items-center justify-between px-5 py-4 md:px-14 md:py-5 border-t border-[#6e8840]/20">
-          <span className="text-[9px] tracking-[0.25em] uppercase text-[#526630]">
-            Full Stack & Mobile Application Developer
-          </span>
-          <span className="text-[9px] tracking-[0.25em] uppercase text-[#526630]">
-            {new Date().getFullYear()}
-          </span>
-        </footer>
-      </div>
-    </>
+
+                  {/* Card */}
+                  <article
+                    className="flex-1 card card-surface rounded-sm border border-[#6e8840]/25 overflow-hidden mb-6 md:mb-10"
+                  >
+                    {/* Animated accent bar — slides in on group hover */}
+                    <div className="h-[1px] w-full overflow-hidden">
+                      <div
+                        className="h-full w-full gradient-accent -translate-x-full group-hover:translate-x-0 transition-transform duration-500"
+                      />
+                    </div>
+
+                    {/* Card header */}
+                    <div className="px-6 pt-5 pb-4 md:px-8 md:pt-6 md:pb-5">
+                      <div className="flex items-start justify-between gap-4 mb-3">
+                        <div className="flex items-center gap-3 min-w-0">
+                          {entry.logo ? (
+                            <Image
+                              src={entry.logo}
+                              alt={entry.company}
+                              height={36}
+                              width={120}
+                              className="h-9 w-auto object-contain shrink-0"
+                              style={{ filter: "brightness(0.88)" }}
+                            />
+                          ) : (
+                            <span className="text-[#96b050] text-[13px] tracking-[0.15em] uppercase font-mono shrink-0">
+                              {entry.company}
+                            </span>
+                          )}
+                        </div>
+                        {entry.type && (
+                          <span className="shrink-0 text-[9px] tracking-[0.15em] uppercase px-2 py-0.5 rounded-sm border border-[#6e8840]/40 text-[#6e8840] font-mono">
+                            {entry.type}
+                          </span>
+                        )}
+                      </div>
+
+                      {entry.logo && (
+                        <p className="text-[#96b050] text-[11px] tracking-[0.18em] uppercase mb-1.5 font-mono">
+                          {entry.company}
+                        </p>
+                      )}
+
+                      <h2 className="font-cormorant text-[#edf5a8] text-[clamp(20px,2.8vw,28px)] font-light leading-tight">
+                        {entry.roleTitle}
+                      </h2>
+                    </div>
+
+                    {/* Divider */}
+                    <div
+                      className="mx-6 md:mx-8 h-px mb-5"
+                      style={{ background: "rgba(110,136,64,0.15)" }}
+                    />
+
+                    {/* Bullets */}
+                    <div className="px-6 md:px-8 pb-5">
+                      <ul className="space-y-3">
+                        {entry.bullets.map((b, bi) => (
+                          <li key={bi} className="flex gap-3 items-start">
+                            <span className="w-1 h-1 rounded-full bg-[#96b050]/60 shrink-0 mt-[7px]" />
+                            <span className="text-[#c8dc80] text-[12px] sm:text-[13px] leading-[1.8]">
+                              {b}
+                            </span>
+                          </li>
+                        ))}
+                      </ul>
+                    </div>
+
+                  </article>
+                </div>
+              </div>
+            );
+          })}
+        </div>
+      </main>
+
+      <PageFooter className={mounted ? "fade-6" : "opacity-0"} />
+    </PageShell>
   );
 }

@@ -1,187 +1,165 @@
-import Link from "next/link";
+"use client";
 
-const projectGroups = [
-  {
-    title: "Personal",
-    items: [
-      {
-        name: "Klaro",
-        url: "https://klaro.vercel.app/",
-        preview:
-          "https://s.wordpress.com/mshots/v1/https%3A%2F%2Fklaro.vercel.app%2F?w=1200",
-        stack: [
-          "Next.js",
-          "TypeScript",
-          "Node.js",
-          "Tailwind CSS",
-          "shadcn/ui",
-          "Firebase",
-          "Prisma",
-        ],
-      },
-      {
-        name: "SproutSpot",
-        url: "https://sproutspot.vercel.app/",
-        preview:
-          "https://s.wordpress.com/mshots/v1/https%3A%2F%2Fsproutspot.vercel.app%2F?w=1200",
-        stack: [
-          "Next.js",
-          "TypeScript",
-          "Node.js",
-          "Tailwind CSS",
-          "shadcn/ui",
-          "Supabase",
-          "Prisma",
-          "Gemini API",
-        ],
-      },
-    ],
-  },
-  {
-    title: "Contractual (Symph)",
-    items: [
-      {
-        name: "CourtHub",
-        url: "https://courthub.ph/",
-        preview: "https://s.wordpress.com/mshots/v1/https%3A%2F%2Fcourthub.ph%2F?w=1200",
-        stack: ["Next.js", "TypeScript", "NestJS", "Drizzle ORM", "Firebase", "Supabase", "GCP"],
-      },
-      {
-        name: "FinSpend",
-        url: "https://finspend.io/",
-        preview:
-          "https://s.wordpress.com/mshots/v1/https%3A%2F%2Ffinspend-staging.as.r.appspot.com%2F?w=1200",
-        stack: ["Next.js", "TypeScript", "NestJS", "TypeORM", "Firebase", "Supabase", "GCP"],
-      },
-      {
-        name: "HireAI",
-        url: "https://hireai.bot/",
-        preview:
-          "https://s.wordpress.com/mshots/v1/https%3A%2F%2Fhireai.bot%2F?w=1200",
-        stack: ["Next.js", "TypeScript", "NestJS", "Firebase", "Firestore", "GCP"],
-      },
-    ],
-  },
-];
+import Image from "next/image";
+import { projects } from "@/data/projects";
+import { useMounted } from "@/hooks/useMounted";
+import { PageShell } from "@/components/PageShell";
+import { PageHeader } from "@/components/PageHeader";
+import { PageFooter } from "@/components/PageFooter";
 
 export default function Projects() {
+  const mounted = useMounted();
   return (
-    <>
-      <style>{`
-        @import url('https://fonts.googleapis.com/css2?family=DM+Mono:wght@300;400;500&family=Cormorant+Garamond:wght@300;400;600;700&display=swap');
-        @keyframes blink { 0%,100%{opacity:1} 50%{opacity:0.25} }
-        .blink  { animation: blink 2.5s infinite; }
-        .noise  { background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.85' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E"); opacity:0.18; }
-      `}</style>
-      <div
-        className="w-screen h-screen overflow-hidden flex flex-col relative"
-        style={{
-          background:
-            "linear-gradient(160deg, #181d0c 0%, #222810 50%, #2c3515 100%)",
-          fontFamily: "'DM Mono', monospace",
-        }}
-      >
-        <div className="noise absolute inset-0 pointer-events-none z-0" />
-        <header className="relative z-10 flex items-center justify-between px-5 py-5 md:px-14 md:py-7 border-b border-[#6e8840]/30">
-          <Link
-            href="/"
-            className="inline-flex items-center gap-2 px-2 py-1 border border-[#6e8840] text-[#96b050] text-[10px] uppercase tracking-[0.2em] rounded-sm hover:bg-[#96b050]/20 transition-colors"
-          >
-            <svg
-              viewBox="0 0 24 24"
-              fill="none"
-              stroke="currentColor"
-              strokeWidth="1.5"
-              className="w-3 h-3"
-            >
-              <path
-                strokeLinecap="round"
-                strokeLinejoin="round"
-                d="M10.5 19.5L3 12m0 0l7.5-7.5M3 12h18"
-              />
-            </svg>
-            Back
-          </Link>
-          <div className="flex items-center gap-2">
-            <span
-              className="blink w-1.5 h-1.5 rounded-full inline-block"
-              style={{ background: "#96b050", boxShadow: "0 0 8px #96b050" }}
-            />
-            <span className="text-[10px] tracking-[0.2em] uppercase text-[#96b050]">
-              Projects
-            </span>
-          </div>
-        </header>
-        <main className="relative z-10 flex-1 overflow-y-auto px-5 py-8 md:px-14 md:py-10">
-          <h1
-            className="text-[#edf5a8] font-light text-[clamp(42px,5vw,72px)] leading-[0.94]"
-            style={{ fontFamily: "'Cormorant Garamond', serif" }}
-          >
-            Projects
-          </h1>
-          <p className="mt-3 text-[#96b050] text-[10px] uppercase tracking-[0.2em]">
-            Personal and Contractual Work
-          </p>
+    <PageShell>
+      <PageHeader
+        label="Projects"
+        showBack
+        className={mounted ? "fade-1" : "opacity-0"}
+      />
 
-          <div className="mt-8 max-w-5xl space-y-7 pb-10">
-            {projectGroups.map((group) => (
-              <section
-                key={group.title}
-                className="rounded-xl border border-[#6e8840]/60 bg-[#232b12]/90 p-5"
+      <main className="relative z-10 flex-1 overflow-y-auto px-5 py-8 md:px-14 md:py-12">
+        <h1
+          className={`font-cormorant text-[#edf5a8] font-light text-[clamp(36px,6vw,68px)] leading-[0.92] mb-10 md:mb-14 ${
+            mounted ? "fade-2" : "opacity-0"
+          }`}
+        >
+          Projects
+        </h1>
+
+        {/* Project cards */}
+        <div className={`flex flex-col gap-5 pb-12 ${mounted ? "fade-3" : "opacity-0"}`}>
+          {projects.map((project, i) => {
+            const href = project.url ?? project.github ?? null;
+            const isLive = !!project.url;
+            const flip = i % 2 === 1;
+
+            const card = (
+              <div
+                className="rounded-sm border border-[#6e8840]/25 overflow-hidden"
+                style={{ background: "rgba(32, 44, 12, 0.72)" }}
               >
-                <h2 className="text-[#edf5a8] text-sm uppercase tracking-[0.2em]">{group.title}</h2>
-                <div className="mt-4 grid grid-cols-1 md:grid-cols-2 gap-4">
-                  {group.items.map((project) => (
-                    <a
-                      key={project.name}
-                      href={project.url}
-                      target="_blank"
-                      rel="noopener noreferrer"
-                      className="group rounded-lg border border-[#6e8840]/50 bg-[#1f2710] p-4 transition-colors hover:border-[#96b050]"
-                    >
-                      <div className="overflow-hidden rounded-md border border-[#6e8840]/40 bg-[#181d0c]">
-                        <img
-                          src={project.preview}
-                          alt={`${project.name} preview`}
-                          className="h-36 w-full object-cover transition-transform duration-300 group-hover:scale-[1.02]"
-                          loading="lazy"
-                        />
-                      </div>
-                      <div className="flex items-center justify-between gap-3">
-                        <h3 className="mt-3 text-[#edf5a8] text-base">{project.name}</h3>
-                        <span className="text-[#96b050] text-xs transition-colors group-hover:text-[#d4ed60]">
-                          Open ↗
+                {/* Top accent stripe */}
+                <div className="h-[1.5px] w-full gradient-accent" />
+
+                <div
+                  className={`flex flex-col ${
+                    flip ? "md:flex-row-reverse" : "md:flex-row"
+                  }`}
+                >
+                  {/* Image panel */}
+                  <div className="relative md:w-[46%] shrink-0 aspect-video overflow-hidden bg-[#0c1207]">
+                    {project.preview ? (
+                      <Image
+                        src={project.preview}
+                        alt={`${project.name} preview`}
+                        fill
+                        className="card-img object-cover object-top"
+                        sizes="(max-width: 768px) 100vw, 46vw"
+                      />
+                    ) : (
+                      <div className="w-full h-full flex items-center justify-center">
+                        <span className="text-[#6e8840]/20 text-[10px] uppercase tracking-[0.3em]">
+                          {project.name}
                         </span>
                       </div>
-                      <p className="mt-3 text-[#96b050] text-[10px] uppercase tracking-[0.2em]">
-                        Tech Stack
-                      </p>
-                      <div className="mt-2 flex flex-wrap gap-2">
+                    )}
+
+                    {/* Hover overlay */}
+                    {href && (
+                      <div className="absolute inset-0 bg-[#0c1207]/75 opacity-0 group-hover:opacity-100 transition-opacity duration-300 flex items-center justify-center">
+                        <span className="border border-[#d4ed60]/55 text-[#d4ed60] text-[10px] tracking-[0.3em] uppercase px-4 py-2">
+                          {isLive ? "View Live ↗" : "View Code ↗"}
+                        </span>
+                      </div>
+                    )}
+
+                    {/* Right-edge vignette into content (desktop) */}
+                    <div
+                      className={`absolute inset-y-0 w-16 hidden md:block pointer-events-none ${
+                        flip ? "left-0 bg-gradient-to-r" : "right-0 bg-gradient-to-l"
+                      }`}
+                      style={{
+                        background: flip
+                          ? "linear-gradient(to right, rgba(32,44,12,0.72), transparent)"
+                          : "linear-gradient(to left, rgba(32,44,12,0.72), transparent)",
+                      }}
+                    />
+                  </div>
+
+                  {/* Content panel */}
+                  <div className="flex flex-col justify-between flex-1 p-6 md:p-8 relative overflow-hidden">
+                    {/* Ghost number */}
+                    <span className="absolute right-4 bottom-2 font-cormorant text-[#3a5010]/18 text-[7.5rem] leading-none select-none pointer-events-none hidden md:block">
+                      {String(i + 1).padStart(2, "0")}
+                    </span>
+
+                    <div className="relative z-10 flex flex-col h-full">
+                      {/* Top row */}
+                      <div className="flex items-center justify-between mb-5">
+                        <span className="text-[#6e8840]/40 text-[9px] tracking-[0.3em] uppercase">
+                          {String(i + 1).padStart(2, "0")}&nbsp;/&nbsp;{String(projects.length).padStart(2, "0")}
+                        </span>
+                        {href && (
+                          <span
+                            className={`link-label flex items-center gap-1.5 text-[10px] tracking-[0.15em] uppercase transition-colors ${
+                              isLive ? "text-[#96b050]" : "text-[#6e8840]"
+                            }`}
+                          >
+                            {isLive && (
+                              <span className="w-1.5 h-1.5 rounded-full bg-[#96b050] blink" />
+                            )}
+                            {isLive ? "Live" : "GitHub"}&nbsp;↗
+                          </span>
+                        )}
+                      </div>
+
+                      <h3 className="font-cormorant text-[#edf5a8] text-[clamp(24px,2.8vw,42px)] font-light leading-[1.05] mb-4">
+                        {project.name}
+                      </h3>
+
+                      {project.description && (
+                        <p className="text-[#8aaa50]/90 text-[11.5px] leading-[1.9] mb-6 max-w-[50ch] flex-1">
+                          {project.description}
+                        </p>
+                      )}
+
+                      <div className="flex flex-wrap gap-1.5 mt-auto">
                         {project.stack.map((tech) => (
                           <span
                             key={tech}
-                            className="rounded-sm border border-[#6e8840]/60 px-2 py-1 text-[10px] text-[#c2d878] uppercase tracking-[0.12em]"
+                            className="px-2 py-[3px] text-[9.5px] tracking-[0.12em] uppercase rounded-sm border border-[#6e8840]/28 text-[#7a9040]/75"
+                            style={{ background: "rgba(110,136,64,0.08)" }}
                           >
                             {tech}
                           </span>
                         ))}
                       </div>
-                    </a>
-                  ))}
+                    </div>
+                  </div>
                 </div>
-              </section>
-            ))}
-          </div>
-        </main>
-        <footer className="relative z-10 flex items-center justify-between px-5 py-4 md:px-14 md:py-5 border-t border-[#6e8840]/20">
-          <span className="text-[9px] tracking-[0.25em] uppercase text-[#526630]">
-            Full Stack & Mobile Application Developer
-          </span>
-          <span className="text-[9px] tracking-[0.25em] uppercase text-[#526630]">
-            {new Date().getFullYear()}
-          </span>
-        </footer>
-      </div>
-    </>
+              </div>
+            );
+
+            return href ? (
+              <a
+                key={project.name}
+                href={href}
+                target="_blank"
+                rel="noopener noreferrer"
+                className="card group block"
+              >
+                {card}
+              </a>
+            ) : (
+              <article key={project.name} className="card group">
+                {card}
+              </article>
+            );
+          })}
+        </div>
+      </main>
+
+      <PageFooter className={mounted ? "fade-4" : "opacity-0"} />
+    </PageShell>
   );
 }
