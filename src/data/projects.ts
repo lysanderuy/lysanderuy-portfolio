@@ -28,7 +28,7 @@ export const webProjects: Project[] = [
     name: "PickASlot",
     type: "Booking App",
     description:
-      "Court booking system for a residential subdivision's pickleball court. Guests browse hourly slots and submit reservations. Bookings confirm after an admin verifies GCash or cash payment.",
+      "Court booking system built for a residential subdivision in Lapu-Lapu, Cebu. Guests browse hourly slots and submit reservations, and bookings confirm after an admin verifies GCash or cash payment. Now in talks to expand the system to more courts under construction.",
     url: "https://pickaslot.vercel.app/",
     preview: "https://s.wordpress.com/mshots/v1/https%3A%2F%2Fpickaslot.vercel.app%2F?w=1200",
     stack: ["Next.js", "TypeScript", "Tailwind CSS", "Supabase", "Drizzle ORM"],
@@ -38,7 +38,7 @@ export const webProjects: Project[] = [
     name: "BallRuns",
     type: "Live Game App",
     description:
-      "Real-time app for running pickup basketball games. Hosts open a run, share a six-character code, and players join a live queue while the host assigns teams, runs the clock, and logs scores. Everyone sees updates instantly, no refresh.",
+      "Real-time app for running pickup basketball games, built for a local ball club in Cebu. Hosts open a run, share a six-character code, and players join a live queue while the host assigns teams, runs the clock, and logs scores. Everyone sees updates instantly, no refresh.",
     url: "https://ballruns.vercel.app/",
     github: "https://github.com/lysanderuy/basketball-runs",
     preview: "https://s.wordpress.com/mshots/v1/https%3A%2F%2Fballruns.vercel.app%2F?w=1200",

@@ -43,7 +43,8 @@ export const experienceEntries: ExperienceEntry[] = [
     location: "Cebu",
     bullets: [
       "Developing a DOH Lab Form Automation system for medical technologists with parallel processing of lab results across multiple departments driven by physician requests",
-      "Built PickASlot, a court booking system for a residential subdivision's pickleball court with public availability browsing and admin-managed reservation confirmation",
+      "Built PickASlot, a court booking system for a residential subdivision in Lapu-Lapu, Cebu with public availability browsing and admin-managed reservation confirmation, now in talks to expand to more courts under construction",
+      "Built BallRuns, a real-time pickup basketball app for a local ball club in Cebu with live player queues, host-managed teams, and instant score updates",
     ],
   },
   {
@@ -53,8 +54,7 @@ export const experienceEntries: ExperienceEntry[] = [
     period: "2024 – Present",
     location: "Cebu",
     bullets: [
-      "Designed the complete electronics and firmware architecture for an automated glove-doffing system, driving an Arduino with a CNC shield to coordinate stepper motors, servos, and vacuum actuation",
-      "Engineered the hands-free doffing sequence: a vacuum crimp grips the glove near the cuff while stepper-driven lateral motion stretches and peels it off the hand",
+      "Designed the complete electronics and firmware for an automated medical glove-doffing system, commissioned by a group of students, driving an Arduino with a CNC shield to coordinate stepper motors, servos, and vacuum actuation for a hands-free sequence that grips, stretches, and peels the glove off the hand",
     ],
   },
 ];
