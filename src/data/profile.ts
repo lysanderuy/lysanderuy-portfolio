@@ -8,6 +8,21 @@ export type StackGroup = {
   items: string[];
 };
 
+export const bio: string[] = [
+  "I'm a full-stack developer from Cebu with 2+ years of experience shipping production software. I'm at home across the whole path of a product, from the database schema and API design down to the interaction details users actually feel.",
+  "I've shipped features across a portfolio of production apps at Symph, built and merged mobile work for Focus Bear, and take on freelance builds of my own.",
+  "Away from the editor I compete in robotics and tinker with hardware and embedded systems, the same curiosity that keeps the software work honest.",
+];
+
+export const resumeUrl = "https://flowcv.com/resume/lvsbfnh5fge5";
+
+export const aboutFacts: { label: string; value: string }[] = [
+  { label: "Location", value: "Cebu, Philippines" },
+  { label: "Currently", value: "Open to work" },
+  { label: "Focus", value: "Full-stack web & mobile" },
+  { label: "Off-screen", value: "Robotics · Hardware" },
+];
+
 export const profileLinks: ProfileLink[] = [
   { label: "LinkedIn", href: "https://www.linkedin.com/in/lysanderuy" },
   { label: "GitHub", href: "https://github.com/lysanderuy" },
@@ -19,7 +34,7 @@ export const profileLinks: ProfileLink[] = [
 export const stackGroups: StackGroup[] = [
   {
     label: "Languages",
-    items: ["TypeScript", "JavaScript", "Python", "Rust", "Java", "C/C++", "PHP", "SQL"],
+    items: ["TypeScript", "JavaScript", "Python", "Kotlin", "Rust", "Java", "C/C++", "PHP", "SQL"],
   },
   {
     label: "Web & Mobile",
@@ -34,8 +49,8 @@ export const stackGroups: StackGroup[] = [
     items: ["GCP", "Supabase", "Firebase", "Docker", "GitHub Actions"],
   },
   {
-    label: "AI, ML & Agentic",
-    items: ["PyTorch", "TensorFlow", "OpenCV", "Detectron2", "Ollama", "OpenClaw", "MCP", "LLM APIs", "ElevenLabs", "Flow", "Grok"],
+    label: "AI",
+    items: ["PyTorch", "TensorFlow", "OpenCV", "Detectron2", "Grok", "Flow", "ElevenLabs"],
   },
   {
     label: "Hardware & Embedded",
@@ -43,6 +58,6 @@ export const stackGroups: StackGroup[] = [
   },
   {
     label: "Tools",
-    items: ["VSCode", "Antigravity", "Cursor", "Claude Code", "XAMPP", "Git", "GitHub"],
+    items: ["VSCode", "Cursor", "Antigravity", "Claude Code", "OpenClaw", "Ollama", "Git", "GitHub", "XAMPP", "ClickUp", "Notion", "Figma"],
   },
 ];
