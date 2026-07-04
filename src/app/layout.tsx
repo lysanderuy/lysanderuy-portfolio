@@ -1,7 +1,20 @@
 import type { Metadata } from "next";
-import { DM_Mono, Cormorant_Garamond } from "next/font/google";
+import { Hanken_Grotesk, JetBrains_Mono, DM_Mono, Cormorant_Garamond } from "next/font/google";
 import "../styles/globals.css";
 
+const hanken = Hanken_Grotesk({
+  subsets: ["latin"],
+  variable: "--font-sans",
+  display: "swap",
+});
+
+const jetbrainsMono = JetBrains_Mono({
+  subsets: ["latin"],
+  variable: "--font-mono-code",
+  display: "swap",
+});
+
+// Retained for the not-yet-rebuilt legacy section pages.
 const dmMono = DM_Mono({
   subsets: ["latin"],
   weight: ["300", "400", "500"],
@@ -27,7 +40,11 @@ export default function RootLayout({
 }: Readonly<{ children: React.ReactNode }>) {
   return (
     <html lang="en">
-      <body className={`${dmMono.variable} ${cormorant.variable}`}>{children}</body>
+      <body
+        className={`${hanken.variable} ${jetbrainsMono.variable} ${dmMono.variable} ${cormorant.variable}`}
+      >
+        {children}
+      </body>
     </html>
   );
 }

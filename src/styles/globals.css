@@ -1,8 +1,90 @@
 @import "tailwindcss";
 
-@keyframes fadeUp {
-  from { opacity: 0; transform: translateY(16px); }
-  to   { opacity: 1; transform: translateY(0); }
+:root {
+  /* Army-fatigue / earth-green palette — muted, warm, desaturated (no neon). */
+  --bg-0: #12140d;
+  --bg-1: #171a10;
+  --bg-2: #1e2216;
+  --surface: rgba(42, 48, 30, 0.5);
+  --border: rgba(122, 126, 90, 0.18);
+  --border-strong: rgba(122, 126, 90, 0.40);
+  --text-hi: #e8e6d4;
+  --text: #adb08f;
+  --text-mid: #868a63;
+  --text-dim: #5f6344;
+  --accent: #afba6b;
+  --accent-bright: #c6d081;
+  --glow: rgba(120, 132, 74, 0.20);
+  --grain-opacity: 0.05;
+}
+
+html {
+  scroll-behavior: smooth;
+  /* Offset anchor targets so they clear the fixed nav. */
+  scroll-padding-top: 6rem;
+}
+
+/* Firefox (and any engine without ::-webkit-scrollbar) gets the standard
+   properties. Scoped behind @supports so they are NOT applied in Chromium —
+   setting scrollbar-color/-width there disables ::-webkit-scrollbar entirely. */
+@supports not selector(::-webkit-scrollbar) {
+  html {
+    scrollbar-width: thin;
+    scrollbar-color: var(--border-strong) var(--bg-0);
+  }
+}
+
+/* Native scrollbar, brand-aligned (WebKit / Chromium): track matches the page
+   background, the thumb is a full-width desaturated-green pill that brightens
+   on hover, and the arrow buttons are removed. */
+::-webkit-scrollbar {
+  width: 7px;
+  height: 7px;
+}
+
+::-webkit-scrollbar-track {
+  background: var(--bg-0);
+}
+
+::-webkit-scrollbar-thumb {
+  background-color: var(--border-strong);
+  border-radius: 999px;
+}
+
+::-webkit-scrollbar-thumb:hover {
+  background-color: var(--text-mid);
+}
+
+::-webkit-scrollbar-button {
+  width: 0;
+  height: 0;
+  display: none;
+}
+
+::-webkit-scrollbar-corner {
+  background: var(--bg-0);
+}
+
+body {
+  font-family: var(--font-sans), ui-sans-serif, system-ui, sans-serif;
+  background: var(--bg-0);
+  color: var(--text);
+  -webkit-font-smoothing: antialiased;
+}
+
+/* Faint blueprint grid — schematic texture for dense/technical sections. */
+.blueprint {
+  background-image:
+    linear-gradient(to right, rgba(122, 126, 90, 0.05) 1px, transparent 1px),
+    linear-gradient(to bottom, rgba(122, 126, 90, 0.05) 1px, transparent 1px);
+  background-size: 46px 46px;
+}
+
+/* Fine analog grain — subtle by default; tune with --grain-opacity. */
+.grain {
+  background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='g'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.85' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23g)'/%3E%3C/svg%3E");
+  background-size: 200px 200px;
+  opacity: var(--grain-opacity);
 }
 
 @keyframes blink {
@@ -10,37 +92,50 @@
   50%       { opacity: 0.25; }
 }
 
-.noise {
-  background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.85' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");
-  opacity: 0.18;
-}
-
 .blink { animation: blink 2.5s infinite; }
 
-.fade-1 { animation: fadeUp 0.45s ease both; }
-.fade-2 { animation: fadeUp 0.55s ease 0.1s both; }
-.fade-3 { animation: fadeUp 0.65s ease 0.2s both; }
-.fade-4 { animation: fadeUp 0.65s ease 0.3s both; }
-.fade-5 { animation: fadeUp 0.65s ease 0.35s both; }
-.fade-6 { animation: fadeUp 0.65s ease 0.45s both; }
-.fade-7 { animation: fadeUp 0.5s ease 0.5s both; }
-
-.card { transition: border-color 0.25s, box-shadow 0.25s; }
-.card:hover { border-color: rgba(150, 176, 80, 0.45); box-shadow: 0 4px 40px rgba(90, 110, 40, 0.12); }
-.card:hover .card-img { transform: scale(1.04); }
-.card-img { transition: transform 0.5s ease; }
-.card:hover .link-label { color: #d4ed60; }
-
-.gradient-accent {
-  background: linear-gradient(90deg, #96b050 0%, #6e8840 60%, transparent 100%);
+@keyframes scrollPulse {
+  0%, 100% { opacity: 0.25; transform: translateY(0); }
+  50%       { opacity: 0.7; transform: translateY(5px); }
 }
 
-.card-surface { background: rgba(32, 44, 12, 0.72); }
+.scroll-pulse { animation: scrollPulse 2.4s ease-in-out infinite; }
 
+/* Expanding "you are here" ping for the coordinate target. */
+@keyframes pingExpand {
+  0%   { transform: scale(0.35); opacity: 0.6; }
+  75%  { opacity: 0; }
+  100% { transform: scale(1.9); opacity: 0; }
+}
+
+.ping-ring {
+  transform-origin: center;
+  transform-box: fill-box;
+  animation: pingExpand 5s cubic-bezier(0.16, 1, 0.3, 1) infinite;
+}
+
+/* Slow drift for the survey target — barely perceptible life. */
+@keyframes targetDrift {
+  0%, 100% { transform: rotate(0deg); }
+  50%       { transform: rotate(6deg); }
+}
+
+.target-drift {
+  transform-origin: center;
+  transform-box: fill-box;
+  animation: targetDrift 34s ease-in-out infinite;
+}
+
+/* Legacy display face — retained for not-yet-rebuilt section pages. */
 .font-cormorant {
   font-family: var(--font-cormorant), serif;
 }
 
-body {
-  font-family: var(--font-dm-mono), monospace;
+.font-mono {
+  font-family: var(--font-mono-code), ui-monospace, monospace;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  html { scroll-behavior: auto; }
+  .scroll-pulse, .blink, .ping-ring, .target-drift { animation: none; }
 }
