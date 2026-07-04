@@ -6,6 +6,7 @@ import { ExperienceSection } from "@/components/ExperienceSection";
 import { EducationSection } from "@/components/EducationSection";
 import { ProjectsSection } from "@/components/ProjectsSection";
 import { SiteFooter } from "@/components/SiteFooter";
+import { ChatWidget } from "@/components/ChatWidget";
 
 export default function Home() {
   return (
@@ -20,6 +21,7 @@ export default function Home() {
       <SiteFooter />
       {/* Global analog grain — whisper-level texture over the whole site */}
       <div className="grain pointer-events-none fixed inset-0 z-[60]" aria-hidden />
+      <ChatWidget />
     </main>
   );
 }
