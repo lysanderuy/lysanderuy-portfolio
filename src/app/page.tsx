@@ -4,6 +4,7 @@ import { AboutSection } from "@/components/AboutSection";
 import { StackSection } from "@/components/StackSection";
 import { ExperienceSection } from "@/components/ExperienceSection";
 import { EducationSection } from "@/components/EducationSection";
+import { SpotlightSection } from "@/components/SpotlightSection";
 import { ProjectsSection } from "@/components/ProjectsSection";
 import { SiteFooter } from "@/components/SiteFooter";
 import { ChatWidget } from "@/components/ChatWidget";
@@ -17,6 +18,7 @@ export default function Home() {
       <StackSection />
       <ExperienceSection />
       <EducationSection />
+      <SpotlightSection />
       <ProjectsSection />
       <SiteFooter />
       {/* Global analog grain — whisper-level texture over the whole site */}

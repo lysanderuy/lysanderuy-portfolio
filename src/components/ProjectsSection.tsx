@@ -309,7 +309,7 @@ export function ProjectsSection() {
       />
       <Container className="relative z-10">
         <SectionHeader
-          index="05"
+          index="06"
           label="Work"
           title="Things I've built"
           intro="Production web apps shipped to real users, and hardware I designed and fabricated end to end. Work that spans the browser and the physical world."
