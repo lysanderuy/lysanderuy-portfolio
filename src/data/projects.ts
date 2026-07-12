@@ -22,6 +22,27 @@ export const thesis: Project = {
   stack: ["Python", "Detectron2", "OpenCV", "CNN", "PyQt5", "GRBL"],
 };
 
+export type LogEntry = { time: string; text: string };
+
+/* A one-off "field log" spotlight, deliberately outside the projects grid. */
+export const spotlight = {
+  name: "Picklers",
+  tagline: "Community Directory",
+  url: "https://www.picklers.website/",
+  preview: "https://s.wordpress.com/mshots/v1/https%3A%2F%2Fwww.picklers.website%2Fmap?w=1200",
+  description:
+    "Picklers is a community-run directory of every pickleball court in Cebu, not a booking platform, just the most accurate list of where to play and how to book, kept current by the players who actually show up.",
+  log: [
+    { time: "23:47", text: "every court I know is already booked." },
+    { time: "00:15", text: "scrolling TikTok, Facebook groups, dead links, still no answer." },
+    { time: "00:41", text: "screw it, I'll build the list myself." },
+    { time: "04:30", text: "first courts are in, still typing." },
+    { time: "09:52", text: "sun's up. it works. finally sleep." },
+  ] satisfies LogEntry[],
+  stat: { value: 160, suffix: "+", label: "courts mapped across Cebu" },
+  status: "Still growing, new courts added weekly",
+};
+
 /* Web & mobile products, shipped to real users. */
 export const webProjects: Project[] = [
   {
